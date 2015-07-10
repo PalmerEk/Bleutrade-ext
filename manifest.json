@@ -1,0 +1,37 @@
+{
+  "name": "Bleutrade Chrome Extension",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "Gives you an edge when trading crypto currencies on Bleutrade",
+  "homepage_url": "https://bleutrade.com/home/4583",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "default_locale": "en",
+  "background": {
+    "page": "src/bg/background.html",
+    "persistent": true
+  },
+  "options_page": "src/options_custom/index.html",
+  "browser_action": {
+    "default_icon": "icons/icon19.png",
+    "default_title": "Bleutrade action window",
+    "default_popup": "src/browser_action/browser_action.html"
+  },
+  "permissions": [
+    "notifications", "https://*/*"
+  ],
+  "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
+  "web_accessible_resources": [
+    "icons/icon128.png"
+  ],
+  "content_scripts": [
+    {
+      "matches": [ "https://*/*", "http://*/*" ],
+      "css": [ "src/inject/inject.css", "css/bootstrap.min.css", "css/custom.css" ],
+      "js": [ "src/inject/inject.js", "js/jquery-2.0.3.min.js",  "js/bootstrap.min.js", "js/swig.min.js" ]
+    }
+  ]
+}

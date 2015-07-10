@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+	<head>
+	    <meta charset="utf-8">
+		<meta name="description" content="Bleutrade Trading Extension">
+		
+		<title>Bleutrade trading extension</title>
+		
+		<!-- Scripts -->
+		<script src="/js/jquery-2.0.3.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
+		<script src="/js/swig.min.js"></script> 
+		<script src="/js/bleutrade-api.js"></script>
+		
+		<!-- Cascading Style Sheets -->
+		<link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<link href="/css/custom.css" rel="stylesheet" media="screen">		
+	</head>
+	
+	<body>
+		<nav class="navbar navbar-default" role="navigation">
+			<div class="navbar-header">
+				<a class="navbar-brand" target="_bleutrade" href="http://bleutrade.com/home/4583">Bleutrade</a>
+			</div>
+			<div class="collapse navbar-collapse navbar-ex1-collapse">
+				<ul class="nav navbar-nav">
+					<li class="active">
+						<a href="#">Link</a>
+					</li>
+					<li>
+						<a href="#">Link</a>
+					</li>
+					<li>
+						<a href="#">
+							<i class="glyphicon glyphicon-thumbs-up"></i>
+						</a>
+					</li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="#">Action</a>
+							</li>
+							<li>
+								<a href="#">Another action</a>
+							</li>
+							<li>
+								<a href="#">Something else here</a>
+							</li>
+							<li>
+								<a href="#">Separated link</a>
+							</li>
+							<li>
+								<a href="#">One more separated link</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		
+		<section>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th></th>
+						<th>Low</th>
+						<th>High</th>
+						<th>Volume</th>
+					</tr>
+				</thead>
+				<tbody id="summary">
+				</tbody>
+			</table>
+		</section>
+		
+		<a class="btn" href="#" onclick="return console.log('foo');">Click</a>
+	</body>
+
+	<script>
+	$("body").append('Test');
+	</script>
+
+	<!-- prepare any client side templates -->
+	<script type="text/javascript">
+		$().ready(function() {
+		  console.log('loading templates')
+		  templates = {}
+		  $("script[type='text/tmpl']").each(function(idx,el) {
+		    templates[$(el).attr("id")] = swig.compile(el.text, { filename: $(el).attr("id") });
+		    $(el).remove();
+		  });
+		});
+	</script>
+
+	<script type="text/javascript">
+		$().ready(function() {
+			console.log('loading summaries')
+			var BleutradeAPI = require('bleutrade-api');
+			var bleutrade = new BleutradeAPI("YOUR-KEY-FOR-PRIVATE-FUNCTIONS", "YOUR-SECRET-FOR-PRIVATE-FUNCTIONS");
+
+			console.log('getting em')
+			bleutrade.getmarketsummaries(function(err, summaries) {
+				console.log('err')
+				console.dir(summaries)
+			    if(err) return;
+
+			    if(summaries.success) {
+			        summaries.result.forEach(function(market) {
+			        	console.log(market.MarketName, market.Low, market.High, market.Volume);
+			        	$('#summary').append($(templates._summaryRow({market: market})));
+			        })
+			    }
+			});
+		});
+	</script>
+
+	<!-- Templates -->
+	<script id="_summaryRow" type="text/tmpl">
+		<tr>
+			<td>{{market.MarketName}}</td>
+			<td>{{market.Low}}</td>
+			<td>{{market.High}}</td>
+			<td>{{market.Volume}}</td>
+		</tr>
+	</script>
+	
+</html>
