@@ -1,0 +1,11 @@
+{
+	"_summaryRow": "<tr> \
+			<td>{{market.MarketName}}</td> \
+			<td>{{market.Low}}</td> \
+			<td>{{market.High}}</td> \
+			<td>{{market.Volume}}</td> \
+		</tr> \
+	</script>",
+	"_otherRow": ""
+}
+

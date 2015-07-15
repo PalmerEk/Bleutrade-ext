@@ -31,7 +31,7 @@
     {
       "matches": [ "https://*/*", "http://*/*" ],
       "css": [ "src/inject/inject.css", "css/bootstrap.min.css", "css/custom.css" ],
-      "js": [ "src/inject/inject.js", "js/jquery-2.0.3.min.js",  "js/bootstrap.min.js", "js/swig.min.js" ]
+      "js": [ "src/inject/inject.js", "js/jquery-2.0.3.min.js",  "js/bootstrap.min.js", "js/swig.min.js", "js/bundle.js", "js/custom.js" ]
     }
   ]
 }

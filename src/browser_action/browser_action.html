@@ -10,7 +10,9 @@
 		<script src="/js/jquery-2.0.3.min.js"></script>
 		<script src="/js/bootstrap.min.js"></script>
 		<script src="/js/swig.min.js"></script> 
-		<script src="/js/bleutrade-api.js"></script>
+		<script src="/js/bundle.js"></script>
+
+		<script src="/js/custom.js"></script>
 		
 		<!-- Cascading Style Sheets -->
 		<link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
@@ -76,53 +78,15 @@
 		
 		<a class="btn" href="#" onclick="return console.log('foo');">Click</a>
 	</body>
-
-	<script>
-	$("body").append('Test');
-	</script>
-
-	<!-- prepare any client side templates -->
-	<script type="text/javascript">
-		$().ready(function() {
-		  console.log('loading templates')
-		  templates = {}
-		  $("script[type='text/tmpl']").each(function(idx,el) {
-		    templates[$(el).attr("id")] = swig.compile(el.text, { filename: $(el).attr("id") });
-		    $(el).remove();
-		  });
-		});
-	</script>
-
-	<script type="text/javascript">
-		$().ready(function() {
-			console.log('loading summaries')
-			var BleutradeAPI = require('bleutrade-api');
-			var bleutrade = new BleutradeAPI("YOUR-KEY-FOR-PRIVATE-FUNCTIONS", "YOUR-SECRET-FOR-PRIVATE-FUNCTIONS");
-
-			console.log('getting em')
-			bleutrade.getmarketsummaries(function(err, summaries) {
-				console.log('err')
-				console.dir(summaries)
-			    if(err) return;
-
-			    if(summaries.success) {
-			        summaries.result.forEach(function(market) {
-			        	console.log(market.MarketName, market.Low, market.High, market.Volume);
-			        	$('#summary').append($(templates._summaryRow({market: market})));
-			        })
-			    }
-			});
-		});
-	</script>
-
-	<!-- Templates -->
-	<script id="_summaryRow" type="text/tmpl">
-		<tr>
-			<td>{{market.MarketName}}</td>
-			<td>{{market.Low}}</td>
-			<td>{{market.High}}</td>
-			<td>{{market.Volume}}</td>
-		</tr>
-	</script>
-	
+	<div id="templateContainer" style="display:none">
+		<div id="_summaryRow" type='text/tmpl'>
+			<tr>
+				<td>{{market.MarketName}}</td>
+				<td>{{market.Low}}</td>
+				<td>{{market.High}}</td>
+				<td>{{market.Volume}}</td>
+			</tr>
+		</div>
+	</script>",
+	</div>
 </html>
